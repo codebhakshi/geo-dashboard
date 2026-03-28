@@ -9,7 +9,7 @@ export async function getGeoJSONData(path: string): Promise<FeatureCollection>{
         throw new Error("unable to fetch jeoJSON data")
     }
     const response = await res.json()
-    debugger
+    
     if(!response || response.type !== 'FeatureCollection' || !Array.isArray(response.features)){
         throw new Error("data you provided is in wrong format")
     }

@@ -34,7 +34,17 @@ function SideBar({ onLayersChange }: SidebarProps) {
   useEffect(() => {
     fetch('/data/files.json')
       .then((res) => res.json())
-      .then((res) => setFiles(res))
+      .then((res) => {
+        if (!Array.isArray(res)) {
+          throw new Error("Invalid data");
+        }
+
+        const validFiles = res.filter(
+          (file) => typeof file.id === "string" && file.id.trim() !== ""
+        );
+
+        setFiles(validFiles);
+      })
       .catch(() => setError("Unable to fetch files"));
   }, []);
 
@@ -84,7 +94,7 @@ function SideBar({ onLayersChange }: SidebarProps) {
   return (
     <aside className="w-[30%] h-screen flex flex-col overflow-hidden bg-zinc-900/50 backdrop-blur-xl border-r border-indigo-500/10 shadow-2xl">
 
-      <div className="p-5 border-b border-indigo-500/10 flex items-center gap-3 flex-shrink-0">
+      <div className="p-5 border-b border-indigo-500/10 flex items-center gap-3 shrink-0">
         <div className="p-2 bg-indigo-500/15 rounded-xl">
           <Layers className="w-5 h-5 text-indigo-400" />
         </div>
@@ -94,7 +104,7 @@ function SideBar({ onLayersChange }: SidebarProps) {
         </div>
       </div>
 
-      <div className="p-4 border-b border-indigo-500/10 flex-shrink-0">
+      <div className="p-4 border-b border-indigo-500/10 shrink-0">
         <div className="flex items-center gap-2 text-[10px] font-semibold text-zinc-500 uppercase tracking-widest mb-3">
           <Database className="w-3.5 h-3.5" />
           Available Files
@@ -116,7 +126,7 @@ function SideBar({ onLayersChange }: SidebarProps) {
                   }`}
               >
                 <span className="flex items-center gap-2">
-                  <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${isLoaded ? 'bg-emerald-400 shadow-[0_0_6px_#4ade80]' : 'bg-zinc-600'}`} />
+                  <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${isLoaded ? 'bg-emerald-400 shadow-[0_0_6px_#4ade80]' : 'bg-zinc-600'}`} />
                   {file.name}
                 </span>
                 {isLoading && <Loader2 className="w-3.5 h-3.5 animate-spin text-indigo-400" />}
@@ -155,7 +165,7 @@ function SideBar({ onLayersChange }: SidebarProps) {
                 </span>
                 <button
                   onClick={() => removeLayer(layer.fileId)}
-                  className="w-5 h-5 rounded-full bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors flex items-center justify-center flex-shrink-0"
+                  className="w-5 h-5 rounded-full bg-red-500/10 text-red-400 hover:bg-red-500/20 hover:text-red-300 transition-colors flex items-center justify-center shrink-0"
                 >
                   <X className="w-3 h-3" />
                 </button>
