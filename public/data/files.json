@@ -1,4 +1,4 @@
 [
   { "id": "1", "name": "Rivers", "path": "/geojson/rivers.geojson" },
-  { "id": "2", "name": "India", "path": "/geojson/india_simplified.geojson" }
+  { "id": "2", "name": "India", "path": "/geojson/India_simplified.geojson" }
 ]
